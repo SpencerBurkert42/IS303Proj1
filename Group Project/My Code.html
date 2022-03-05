@@ -94,13 +94,15 @@
 
     <!--BYU Last 30 credits GPA-->
     <label>BYU Last 30 Credits GPA: </label><input type="text" id="LGPA"><br><br>
+    <label>Calculated GPA: </label><input type="text" id="calculatedGPA"> <br><br>
     <svg viewBox="0 0 60 60" width="40" height="40">
     <circle id="myCircle" cx="30" cy="30" r="25" stroke="#4DA167" stroke-width="10" fill="transparent" display="none" />
     </svg>
     <br>
+    
     <!--Buttons-->
-    <button type="button">Calculate</button><br><br>
-    <button type="button">Reset</button><br><br>
+    <button type="button" onclick="calcGPA()">Calculate</button><br><br>
+    <button type="button" onclick="clearCircle()">Reset</button><br><br>
 
     </fieldset>
 
@@ -133,6 +135,7 @@
             //clear GPA inputs
             document.getElementById("OGPA").value = "";
             document.getElementById("LGPA").value = "";
+            document.getElementById("calculatedGPA").value = "";
             fTotalGPA = "";
             document.getElementById("IS201").focus();
         }
@@ -168,7 +171,32 @@
 
 
         
-        //put this at the end of the calcGPA() function
+ //This function calculates your total GPA taking inputs from each class, 
+ // your GPA and you last 30 credit GPA and multiplying it by the necessary weight
+        function calcGPA()
+        {
+//This if statement alerts the user if they left a needed field empty
+            if (document.getElementById("IS201").value == "" || document.getElementById("IS303").value == "" || 
+            document.getElementById("ACC200").value == "" || document.getElementById("OGPA").value == "" || 
+            document.getElementById("LGPA").value == "")
+            {
+                alert("You must select an item in each drop down and enter a value in the Overall GPA and Last 30 Credits GPA text boxes!");
+            }
+            else {
+//This takes string inputs from the text boxes and converts them to integers
+           let a = parseFloat(document.getElementById("IS201").value);
+           let b = parseFloat(document.getElementById("IS303").value);
+           let c = parseFloat(document.getElementById("ACC200").value);
+            let d = parseFloat(document.getElementById("OGPA").value);
+            let e = parseFloat(document.getElementById("LGPA").value);
+//This is the formula that calculates the final GPA
+            let fTotalGPA = ((a * .3) + (b * .3) + (c * .05) + (d * .15) + (e * .2));
+
+//This rounds the GPA to two decimal places
+            fTotalGPA = fTotalGPA.toFixed(2);
+//This assigns fTotalGPA to Calculated GPA text box
+            document.getElementById("calculatedGPA").value = fTotalGPA;
+
         if (fTotalGPA >= 3.7)
         {               
             //green                          
@@ -185,6 +213,8 @@
             document.getElementById("myCircle").style.stroke="#C1292E";
         }
         document.getElementById("myCircle").style.display = "block";  
+    }}
             </script>
+        
 </body>
 </html>
